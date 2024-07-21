@@ -44,7 +44,9 @@ private fun WeatherLayout(state: WeatherState) {
         ScreenData.Loading -> ShowLoading()
         is ScreenData.Error -> ShowError()
         is ScreenData.Data -> state.screenData.weatherInfo?.let { data ->
-            WeatherContent(weatherInfo = data)
+            WeatherContent(
+                weatherInfo = data
+            )
         }
     }
 }
@@ -59,7 +61,7 @@ private fun WeatherContent(weatherInfo: WeatherInfo) {
     ) {
         WeatherCard(
             weatherInfo = weatherInfo,
-            backgroundColor = DeepBlue
+            backgroundColor = DeepBlue,
         )
         Spacer(modifier = Modifier.height(16.dp))
         WeatherForecast(weatherInfo = weatherInfo)

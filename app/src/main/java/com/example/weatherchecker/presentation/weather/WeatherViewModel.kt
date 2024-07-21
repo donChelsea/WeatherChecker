@@ -1,5 +1,7 @@
 package com.example.weatherchecker.presentation.weather
 
+import android.location.Address
+import android.location.Geocoder
 import androidx.lifecycle.viewModelScope
 import com.example.weatherchecker.common.Resource
 import com.example.weatherchecker.common.WeatherCheckerViewModel
@@ -10,12 +12,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
+
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
     private val repository: WeatherRepository,
     private val locationTracker: LocationTracker,
+    private val geocoder: Geocoder,
 ) : WeatherCheckerViewModel<WeatherState, WeatherEvent, WeatherAction>() {
     override val state: StateFlow<WeatherState>
         get() = _state
@@ -32,7 +37,11 @@ class WeatherViewModel @Inject constructor(
             updateState(ScreenData.Loading)
             locationTracker.getCurrentLocation()?.let { location ->
                 when (val result = repository.getWeatherData(location.latitude, location.longitude)) {
-                    is Resource.Success -> updateState(ScreenData.Data(weatherInfo = result.data))
+                    is Resource.Success -> {
+                        val currentLocation = getLocationName(location.latitude, location.longitude)
+                        result.data?.currentLocation = currentLocation
+                        updateState(ScreenData.Data(weatherInfo = result.data))
+                    }
                     is Resource.Error -> updateState(ScreenData.Error(result.message ?: "An error occurred while getting location."))
                 }
             } ?: kotlin.run {
@@ -43,4 +52,17 @@ class WeatherViewModel @Inject constructor(
 
     private fun updateState(screenData: ScreenData) =
         _state.update { it.copy(screenData = screenData) }
+
+    private fun getLocationName(lat: Double, lng: Double): String {
+        var locality = ""
+        try {
+            val addresses: List<Address>? = geocoder.getFromLocation(lat, lng, 1)
+            val address: Address = addresses!![0]
+            locality = address.locality.trim()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            println(e.message.toString())
+        }
+        return locality
+    }
 }

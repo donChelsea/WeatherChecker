@@ -2,9 +2,9 @@ package com.example.weatherchecker.data.remote.dtos
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.weatherchecker.domain.weather.WeatherData
-import com.example.weatherchecker.domain.weather.WeatherInfo
-import com.example.weatherchecker.domain.weather.WeatherType
+import com.example.weatherchecker.domain.models.WeatherData
+import com.example.weatherchecker.domain.models.WeatherInfo
+import com.example.weatherchecker.domain.models.WeatherType
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

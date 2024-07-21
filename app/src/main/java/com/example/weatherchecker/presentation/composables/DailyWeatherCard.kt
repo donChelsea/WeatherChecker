@@ -30,7 +30,6 @@ import com.example.weatherchecker.domain.models.WeatherData
 import com.example.weatherchecker.domain.models.WeatherType
 import com.example.weatherchecker.presentation.ui.theme.LightBlue
 import java.time.LocalDateTime
-import kotlin.math.roundToInt
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

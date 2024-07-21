@@ -9,6 +9,7 @@ import com.example.weatherchecker.domain.models.WeatherInfo
 import com.example.weatherchecker.domain.models.WeatherType
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.math.roundToInt
 
 data class IndexedWeatherData(
     val index: Int,
@@ -27,7 +28,7 @@ fun WeatherDataDto.toWeatherDataMap(): Map<Int, List<WeatherData>> {
             index = index,
             data = WeatherData(
                 time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME),
-                temperatureInFahrenheit = temperature,
+                temperatureInFahrenheit = temperature.roundToInt(),
                 pressure = pressure,
                 windSpeed = windSpeed,
                 humidity = humidity,

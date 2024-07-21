@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherchecker.domain.models.WeatherInfo
+import java.time.LocalDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -37,12 +38,14 @@ fun WeatherForecast(
             Spacer(modifier = Modifier.height(16.dp))
             LazyRow(content = {
                 items(data) { weatherData ->
-                    HourlyWeatherDisplay(
-                        weatherData = weatherData,
-                        modifier = Modifier
-                            .height(100.dp)
-                            .padding(horizontal = 16.dp)
-                    )
+                    if (weatherData.time > LocalDateTime.now()) {
+                        HourlyWeatherDisplay(
+                            weatherData = weatherData,
+                            modifier = Modifier
+                                .height(100.dp)
+                                .padding(horizontal = 16.dp)
+                        )
+                    }
                 }
             })
         }

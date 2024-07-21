@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 
 data class WeatherData(
     val time: LocalDateTime,
-    val temperatureInFahrenheit: Double,
+    val temperatureInFahrenheit: Int,
     val weatherType: WeatherType,
     val pressure: Double,
     val windSpeed: Double,

@@ -71,7 +71,7 @@ fun WeatherCard(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "${data.temperatureInFahrenheit.roundToInt()}°F",
+                    text = "${data.temperatureInFahrenheit}°F",
                     fontSize = 50.sp,
                     color = Color.White
                 )
@@ -122,7 +122,7 @@ private fun PreviewWeatherCard() {
             mapOf(),
             WeatherData(
                 time = LocalDateTime.now(),
-                temperatureInFahrenheit = 89.0,
+                temperatureInFahrenheit = 89,
                 weatherType = WeatherType.fromWMO(3),
                 pressure = 9.0,
                 windSpeed = 4.0,

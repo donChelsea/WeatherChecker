@@ -1,4 +1,4 @@
-package com.example.weatherchecker.presentation.screens
+package com.example.weatherchecker.presentation.weather
 
 import androidx.compose.runtime.Immutable
 import com.example.weatherchecker.domain.models.WeatherInfo
@@ -12,7 +12,6 @@ data class WeatherState(
 sealed class ScreenData {
     data object Initial : ScreenData()
     data object Loading : ScreenData()
-    data object Offline : ScreenData()
 
     @Immutable
     data class Error(

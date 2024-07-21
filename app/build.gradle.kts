@@ -71,6 +71,9 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.48")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
+    // Icons
+    implementation(libs.androidx.material.icons.extended)
+
     // Location Services
     implementation(libs.play.services.location)
 

@@ -1,4 +1,4 @@
-package com.example.weatherchecker.presentation.screens
+package com.example.weatherchecker.presentation.weather
 
 import androidx.lifecycle.viewModelScope
 import com.example.weatherchecker.common.Resource

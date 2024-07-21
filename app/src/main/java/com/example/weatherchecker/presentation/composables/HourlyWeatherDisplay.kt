@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.weatherchecker.domain.models.WeatherData
 import java.time.format.DateTimeFormatter
+import kotlin.math.roundToInt
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -27,7 +28,7 @@ fun HourlyWeatherDisplay(
 ) {
     val formattedTime = remember(weatherData) {
         weatherData.time.format(
-            DateTimeFormatter.ofPattern("HH:mm")
+            DateTimeFormatter.ofPattern("h:mm a")
         )
     }
     Column(
@@ -45,7 +46,7 @@ fun HourlyWeatherDisplay(
             modifier = Modifier.width(40.dp)
         )
         Text(
-            text = "${weatherData.temperatureInFahrenheit} °F",
+            text = "${weatherData.temperatureInFahrenheit.roundToInt()} °F",
             color = textColor,
             fontWeight = FontWeight.Bold
         )

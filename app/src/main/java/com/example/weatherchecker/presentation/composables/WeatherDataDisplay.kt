@@ -23,6 +23,12 @@ fun WeatherDataDisplay(
     textStyle: TextStyle = TextStyle(),
     iconTint: Color = Color.White
 ) {
+    val spacedText = if (unit == "%") {
+        "$value$unit"
+    } else {
+        "$value $unit"
+    }
+
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
@@ -35,7 +41,7 @@ fun WeatherDataDisplay(
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(
-            text = "$value$unit",
+            text = spacedText,
             style = textStyle
         )
     }

@@ -57,7 +57,7 @@ fun WeatherCard(
                 Text(
                     text = "Today ${
                         data.time.format(
-                            DateTimeFormatter.ofPattern("HH:mm")
+                            DateTimeFormatter.ofPattern("h:mm a")
                         )
                     }",
                     modifier = Modifier.align(Alignment.End),
@@ -71,7 +71,7 @@ fun WeatherCard(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "${data.temperatureInFahrenheit} °F",
+                    text = "${data.temperatureInFahrenheit.roundToInt()}°F",
                     fontSize = 50.sp,
                     color = Color.White
                 )

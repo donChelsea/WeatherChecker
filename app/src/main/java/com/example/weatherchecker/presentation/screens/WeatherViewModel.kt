@@ -24,10 +24,7 @@ class WeatherViewModel @Inject constructor(
 
     override fun handleAction(action: WeatherAction) = when (action) {
         is WeatherAction.OnWeatherItemClicked -> {}
-    }
-
-    init {
-        loadWeatherInfo()
+        WeatherAction.OnRequestPermissions -> loadWeatherInfo()
     }
 
     private fun loadWeatherInfo() {

@@ -1,6 +1,5 @@
-package com.example.weatherchecker.ui.theme
+package com.example.weatherchecker.presentation.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

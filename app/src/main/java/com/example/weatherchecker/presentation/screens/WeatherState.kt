@@ -35,4 +35,5 @@ sealed class WeatherEvent {
 sealed class WeatherAction {
     @Immutable
     data class OnWeatherItemClicked(val coinId: String, val coinName: String): WeatherAction()
+    data object OnRequestPermissions: WeatherAction()
 }

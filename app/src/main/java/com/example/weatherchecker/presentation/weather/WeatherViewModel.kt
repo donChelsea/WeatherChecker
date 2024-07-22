@@ -1,4 +1,4 @@
-package com.example.weatherchecker.presentation.screens.weather
+package com.example.weatherchecker.presentation.weather
 
 import android.location.Address
 import android.location.Geocoder
@@ -7,6 +7,10 @@ import com.example.weatherchecker.common.Resource
 import com.example.weatherchecker.common.WeatherCheckerViewModel
 import com.example.weatherchecker.data.location.LocationTracker
 import com.example.weatherchecker.domain.repository.WeatherRepository
+import com.example.weatherchecker.presentation.screens.weather.ScreenData
+import com.example.weatherchecker.presentation.screens.weather.WeatherAction
+import com.example.weatherchecker.presentation.screens.weather.WeatherEvent
+import com.example.weatherchecker.presentation.screens.weather.WeatherState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,10 +33,7 @@ class WeatherViewModel @Inject constructor(
 
     override fun handleAction(action: WeatherAction) = when (action) {
         is WeatherAction.OnWeatherItemClicked -> emitUiEvent(
-            WeatherEvent.OnWeatherItemClicked(
-                action.weatherData,
-                action.location
-            )
+            WeatherEvent.OnWeatherItemClicked(action.weatherDataList)
         )
 
         WeatherAction.OnRequestPermissions -> loadWeatherInfo()

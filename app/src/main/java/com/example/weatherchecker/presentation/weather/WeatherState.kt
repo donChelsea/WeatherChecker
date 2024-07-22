@@ -1,11 +1,11 @@
-package com.example.weatherchecker.presentation.screens.detail
+package com.example.weatherchecker.presentation.screens.weather
 
 import androidx.compose.runtime.Immutable
 import com.example.weatherchecker.domain.models.WeatherData
 import com.example.weatherchecker.domain.models.WeatherInfo
 
 @Immutable
-data class WeatherDetailState(
+data class WeatherState(
     val screenData: ScreenData = ScreenData.Initial,
 )
 
@@ -21,13 +21,19 @@ sealed class ScreenData {
 
     @Immutable
     data class Data(
-        val weatherData: WeatherData? = null,
-        val locationName: String = ""
+        val weatherInfo: WeatherInfo? = null,
     ) : ScreenData()
 }
 
 @Immutable
-sealed class WeatherDetailEvent {}
+sealed class WeatherEvent {
+    @Immutable
+    data class OnWeatherItemClicked(val weatherDataList: List<WeatherData>): WeatherEvent()
+}
 
 @Immutable
-sealed class WeatherDetailAction {}
+sealed class WeatherAction {
+    @Immutable
+    data class OnWeatherItemClicked(val weatherDataList: List<WeatherData>): WeatherAction()
+    data object OnRequestPermissions: WeatherAction()
+}

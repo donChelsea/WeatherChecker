@@ -37,7 +37,7 @@ import java.time.LocalDateTime
 fun DailyWeatherCard(
     modifier: Modifier = Modifier,
     weatherData: WeatherData,
-    onClick: (WeatherData) -> Unit
+    onClick: () -> Unit
 ) {
     val iconSize = 60.dp
     val offsetInPx = LocalDensity.current.run { (iconSize / 2).roundToPx() }
@@ -46,10 +46,10 @@ fun DailyWeatherCard(
     Box(
         modifier = modifier
             .padding(horizontal = 8.dp)
-            .clickable { onClick(weatherData) }
+            .clickable { onClick() }
     ) {
         Card(
-            modifier = Modifier.requiredSize(140.dp),
+            modifier = Modifier.requiredSize(90.dp),
             colors = CardDefaults.cardColors(containerColor = LightBlue)
         ) {
             Box(
@@ -57,9 +57,9 @@ fun DailyWeatherCard(
             ) {
                 Text(
                     text = "${weatherData.temperatureInFahrenheit}°F",
-                    fontSize = 40.sp,
+                    fontSize = 26.sp,
                     color = White,
-                    modifier = Modifier.padding(top = 46.dp)
+                    modifier = Modifier.padding(top = 30.dp)
                 )
             }
         }
@@ -79,7 +79,7 @@ fun DailyWeatherCard(
 
         Text(
             text = dayOfWeek,
-            fontSize = 14.sp,
+            fontSize = 12.sp,
             color = White,
             modifier = Modifier
                 .align(BottomCenter)

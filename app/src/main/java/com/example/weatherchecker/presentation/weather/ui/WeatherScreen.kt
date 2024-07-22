@@ -1,4 +1,4 @@
-package com.example.weatherchecker.presentation.screens.weather.ui
+package com.example.weatherchecker.presentation.weather.ui
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -15,7 +15,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.example.weatherchecker.domain.models.WeatherInfo
 import com.example.weatherchecker.presentation.composables.DailyWeatherCard
 import com.example.weatherchecker.presentation.composables.ShowError
@@ -26,27 +25,19 @@ import com.example.weatherchecker.presentation.screens.weather.ScreenData
 import com.example.weatherchecker.presentation.screens.weather.WeatherAction
 import com.example.weatherchecker.presentation.screens.weather.WeatherEvent
 import com.example.weatherchecker.presentation.screens.weather.WeatherState
-import com.example.weatherchecker.presentation.screens.weather.WeatherViewModel
 import com.example.weatherchecker.presentation.ui.theme.DarkBlue
 import com.example.weatherchecker.presentation.ui.theme.DeepBlue
-import com.google.gson.Gson
+import com.example.weatherchecker.presentation.weather.WeatherViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun WeatherScreen(
-    viewModel: WeatherViewModel,
-    navController: NavHostController
-) {
+fun WeatherScreen(viewModel: WeatherViewModel) {
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(key1 = true) {
         viewModel.events.collect { event ->
             when (event) {
                 is WeatherEvent.OnWeatherItemClicked -> {
-                    val tvShowJsonString = Gson().toJson(event.weatherData)
-                    navController.navigate(
-                        "tvShow_detail_screen?tvShow=${tvShowJsonString}"
-                    )
                 }
             }
         }
@@ -83,9 +74,6 @@ private fun WeatherContent(
     weatherInfo: WeatherInfo,
     onAction: (WeatherAction) -> Unit,
 ) {
-    val l = weatherInfo.weatherDataPerDay.values.toList()[1]
-    println()
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -95,20 +83,15 @@ private fun WeatherContent(
             weatherInfo = weatherInfo,
             backgroundColor = DeepBlue,
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         WeatherForecast(weatherInfo = weatherInfo)
         Spacer(modifier = Modifier.height(40.dp))
         LazyRow {
             itemsIndexed(weatherInfo.weatherDataPerDay.values.toList().drop(1)) { index, item ->
                 DailyWeatherCard(
                     weatherData = item[index],
-                    onClick = { weatherData ->
-                        onAction(
-                            WeatherAction.OnWeatherItemClicked(
-                                weatherData = weatherData,
-                                location = weatherInfo.locationName
-                            )
-                        )
+                    onClick = {
+                        onAction(WeatherAction.OnWeatherItemClicked(item))
                     }
                 )
             }

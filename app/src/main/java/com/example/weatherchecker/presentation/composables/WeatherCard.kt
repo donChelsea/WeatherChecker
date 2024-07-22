@@ -2,7 +2,10 @@ package com.example.weatherchecker.presentation.composables
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,9 +19,14 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
@@ -41,67 +49,175 @@ fun WeatherCard(
     backgroundColor: Color,
     modifier: Modifier = Modifier,
 ) {
+    var rotated by remember { mutableStateOf(false) }
+
+    val rotation by animateFloatAsState(
+        targetValue = if (rotated) 180f else 0f,
+        animationSpec = tween(500)
+    )
+
+    val animateFront by animateFloatAsState(
+        targetValue = if (!rotated) 1f else 0f,
+        animationSpec = tween(500)
+    )
+
+    val animateBack by animateFloatAsState(
+        targetValue = if (rotated) 1f else 0f,
+        animationSpec = tween(500)
+    )
+
     weatherInfo.currentWeatherData?.let { data ->
         Card(
-            modifier = modifier.padding(16.dp),
+            modifier = modifier
+                .padding(16.dp)
+                .graphicsLayer {
+                    rotationY = rotation
+                    cameraDistance = 8 * density
+                }
+                .clickable {
+                    rotated = !rotated
+                },
             shape = RoundedCornerShape(10.dp),
             colors = CardDefaults.cardColors(containerColor = backgroundColor)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = weatherInfo.locationName,
-                    color = Color.White,
-                    modifier = Modifier.align(Alignment.End)
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Image(
-                    painter = painterResource(id = data.weatherType.iconRes),
-                    contentDescription = data.weatherType.weatherDesc,
-                    modifier = Modifier.width(200.dp)
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = "${data.temperatureInFahrenheit}°F",
-                    fontSize = 50.sp,
-                    color = Color.White
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = data.weatherType.weatherDesc,
-                    fontSize = 20.sp,
-                    color = Color.White
-                )
-                Spacer(modifier = Modifier.height(32.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
+            if (!rotated) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    WeatherDataDisplay(
-                        value = data.pressure.roundToInt(),
-                        unit = "hPa",
-                        icon = ImageVector.vectorResource(id = R.drawable.ic_pressure),
-                        iconTint = Color.White,
-                        textStyle = TextStyle(color = Color.White)
+                    Text(
+                        text = weatherInfo.locationName,
+                        color = Color.White,
+                        modifier = Modifier
+                            .align(Alignment.End)
+                            .graphicsLayer {
+                                alpha = animateFront
+                            }
                     )
-                    WeatherDataDisplay(
-                        value = data.humidity.roundToInt(),
-                        unit = "%",
-                        icon = ImageVector.vectorResource(id = R.drawable.ic_drop),
-                        iconTint = Color.White,
-                        textStyle = TextStyle(color = Color.White)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Image(
+                        painter = painterResource(id = data.weatherType.iconRes),
+                        contentDescription = data.weatherType.weatherDesc,
+                        modifier = Modifier
+                            .width(200.dp)
+                            .graphicsLayer {
+                                alpha = animateFront
+                            }
                     )
-                    WeatherDataDisplay(
-                        value = data.windSpeed.roundToInt(),
-                        unit = "mph",
-                        icon = ImageVector.vectorResource(id = R.drawable.ic_wind),
-                        iconTint = Color.White,
-                        textStyle = TextStyle(color = Color.White)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "${data.temperatureInFahrenheit}°F",
+                        fontSize = 50.sp,
+                        color = Color.White,
+                        modifier = Modifier.graphicsLayer {
+                            alpha = animateFront
+                        }
                     )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = data.weatherType.weatherDesc,
+                        fontSize = 20.sp,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(32.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ) {
+                        WeatherDataDisplay(
+                            value = data.pressure.roundToInt(),
+                            unit = "hPa",
+                            icon = ImageVector.vectorResource(id = R.drawable.ic_pressure),
+                            iconTint = Color.White,
+                            textStyle = TextStyle(color = Color.White)
+                        )
+                        WeatherDataDisplay(
+                            value = data.humidity.roundToInt(),
+                            unit = "%",
+                            icon = ImageVector.vectorResource(id = R.drawable.ic_drop),
+                            iconTint = Color.White,
+                            textStyle = TextStyle(color = Color.White)
+                        )
+                        WeatherDataDisplay(
+                            value = data.windSpeed.roundToInt(),
+                            unit = "mph",
+                            icon = ImageVector.vectorResource(id = R.drawable.ic_wind),
+                            iconTint = Color.White,
+                            textStyle = TextStyle(color = Color.White)
+                        )
+                    }
+                }
+            } else {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Rotated",
+                        color = Color.White,
+                        modifier = Modifier
+                            .align(Alignment.End)
+                            .graphicsLayer {
+                                alpha = animateBack
+                                rotationY = rotation
+                            }
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Image(
+                        painter = painterResource(id = data.weatherType.iconRes),
+                        contentDescription = data.weatherType.weatherDesc,
+                        modifier = Modifier
+                            .width(200.dp)
+                            .graphicsLayer {
+                                alpha = animateBack
+                            }
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "${data.temperatureInFahrenheit}°F",
+                        fontSize = 50.sp,
+                        color = Color.White,
+                        modifier = Modifier.graphicsLayer {
+                            alpha = animateBack
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = data.weatherType.weatherDesc,
+                        fontSize = 20.sp,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(32.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ) {
+                        WeatherDataDisplay(
+                            value = data.pressure.roundToInt(),
+                            unit = "hPa",
+                            icon = ImageVector.vectorResource(id = R.drawable.ic_pressure),
+                            iconTint = Color.White,
+                            textStyle = TextStyle(color = Color.White)
+                        )
+                        WeatherDataDisplay(
+                            value = data.humidity.roundToInt(),
+                            unit = "%",
+                            icon = ImageVector.vectorResource(id = R.drawable.ic_drop),
+                            iconTint = Color.White,
+                            textStyle = TextStyle(color = Color.White)
+                        )
+                        WeatherDataDisplay(
+                            value = data.windSpeed.roundToInt(),
+                            unit = "mph",
+                            icon = ImageVector.vectorResource(id = R.drawable.ic_wind),
+                            iconTint = Color.White,
+                            textStyle = TextStyle(color = Color.White)
+                        )
+                    }
                 }
             }
         }
@@ -124,6 +240,6 @@ private fun PreviewWeatherCard() {
                 humidity = 6.0
             )
         ),
-        backgroundColor = DeepBlue
+        backgroundColor = DeepBlue,
     )
 }

@@ -54,7 +54,7 @@ fun WeatherCard(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = weatherInfo.currentLocation,
+                    text = weatherInfo.locationName,
                     color = Color.White,
                     modifier = Modifier.align(Alignment.End)
                 )

@@ -1,4 +1,4 @@
-package com.example.weatherchecker.domain.location
+package com.example.weatherchecker.data.location
 
 import android.location.Location
 

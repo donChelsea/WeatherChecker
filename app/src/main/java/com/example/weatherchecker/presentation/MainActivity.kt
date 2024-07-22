@@ -9,10 +9,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.navigation.compose.rememberNavController
+import com.example.weatherchecker.presentation.screens.weather.WeatherAction
+import com.example.weatherchecker.presentation.screens.weather.WeatherViewModel
+import com.example.weatherchecker.presentation.screens.weather.ui.WeatherScreen
 import com.example.weatherchecker.presentation.ui.theme.WeatherCheckerTheme
-import com.example.weatherchecker.presentation.weather.WeatherAction
-import com.example.weatherchecker.presentation.weather.WeatherViewModel
-import com.example.weatherchecker.presentation.weather.ui.WeatherScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,7 +41,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             WeatherCheckerTheme {
-                WeatherScreen(viewModel)
+                WeatherScreen(
+                    viewModel = viewModel,
+                    navController = rememberNavController()
+                )
             }
         }
     }

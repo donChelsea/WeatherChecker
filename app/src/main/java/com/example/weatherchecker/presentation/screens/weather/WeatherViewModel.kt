@@ -1,11 +1,11 @@
-package com.example.weatherchecker.presentation.weather
+package com.example.weatherchecker.presentation.screens.weather
 
 import android.location.Address
 import android.location.Geocoder
 import androidx.lifecycle.viewModelScope
 import com.example.weatherchecker.common.Resource
 import com.example.weatherchecker.common.WeatherCheckerViewModel
-import com.example.weatherchecker.domain.location.LocationTracker
+import com.example.weatherchecker.data.location.LocationTracker
 import com.example.weatherchecker.domain.repository.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +28,13 @@ class WeatherViewModel @Inject constructor(
     private val _state: MutableStateFlow<WeatherState> = MutableStateFlow(WeatherState())
 
     override fun handleAction(action: WeatherAction) = when (action) {
-        is WeatherAction.OnWeatherItemClicked -> {}
+        is WeatherAction.OnWeatherItemClicked -> emitUiEvent(
+            WeatherEvent.OnWeatherItemClicked(
+                action.weatherData,
+                action.location
+            )
+        )
+
         WeatherAction.OnRequestPermissions -> loadWeatherInfo()
     }
 
@@ -38,10 +44,11 @@ class WeatherViewModel @Inject constructor(
             locationTracker.getCurrentLocation()?.let { location ->
                 when (val result = repository.getWeatherData(location.latitude, location.longitude)) {
                     is Resource.Success -> {
-                        val currentLocation = getLocationName(location.latitude, location.longitude)
-                        result.data?.currentLocation = currentLocation
+                        val locationName = getLocationName(location.latitude, location.longitude)
+                        result.data?.locationName = locationName
                         updateState(ScreenData.Data(weatherInfo = result.data))
                     }
+
                     is Resource.Error -> updateState(ScreenData.Error(result.message ?: "An error occurred while getting location."))
                 }
             } ?: kotlin.run {

@@ -4,6 +4,6 @@ data class WeatherInfo(
     val weatherDataPerDay: Map<Int, List<WeatherData>>,
     val currentWeatherData: WeatherData?,
 ) {
-    var currentLocation: String = ""
+    var locationName: String = ""
         set(value) { field = value }
 }

@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -36,12 +37,17 @@ import java.time.LocalDateTime
 fun DailyWeatherCard(
     modifier: Modifier = Modifier,
     weatherData: WeatherData,
+    onClick: (WeatherData) -> Unit
 ) {
     val iconSize = 60.dp
     val offsetInPx = LocalDensity.current.run { (iconSize / 2).roundToPx() }
     val dayOfWeek = LocalDateTime.parse(weatherData.time.toString()).dayOfWeek.name
 
-    Box(modifier = modifier.padding(horizontal = 8.dp)) {
+    Box(
+        modifier = modifier
+            .padding(horizontal = 8.dp)
+            .clickable { onClick(weatherData) }
+    ) {
         Card(
             modifier = Modifier.requiredSize(140.dp),
             colors = CardDefaults.cardColors(containerColor = LightBlue)
@@ -94,6 +100,7 @@ private fun PreviewDailyWeatherCard() {
             pressure = 9.0,
             windSpeed = 4.0,
             humidity = 6.0
-        )
+        ),
+        onClick = {}
     )
 }

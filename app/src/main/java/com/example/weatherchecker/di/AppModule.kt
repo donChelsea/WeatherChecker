@@ -5,8 +5,6 @@ import android.content.Context
 import android.location.Geocoder
 import com.example.weatherchecker.common.BASE_URL
 import com.example.weatherchecker.data.remote.WeatherApi
-import com.example.weatherchecker.data.remote.repository.WeatherRepositoryImpl
-import com.example.weatherchecker.domain.repository.WeatherRepository
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.Module

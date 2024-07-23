@@ -36,7 +36,6 @@ import com.example.weatherchecker.presentation.screens.weather.WeatherAction
 import com.example.weatherchecker.presentation.screens.weather.WeatherEvent
 import com.example.weatherchecker.presentation.screens.weather.WeatherState
 import com.example.weatherchecker.presentation.ui.theme.DarkBlue
-import com.example.weatherchecker.presentation.ui.theme.DeepBlue
 import com.example.weatherchecker.presentation.weather.WeatherViewModel
 import kotlinx.coroutines.launch
 

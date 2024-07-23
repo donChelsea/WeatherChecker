@@ -1,7 +1,7 @@
 package com.example.weatherchecker.di
 
-import com.example.weatherchecker.domain.location.DefaultLocationTracker
 import com.example.weatherchecker.data.location.LocationTracker
+import com.example.weatherchecker.domain.location.DefaultLocationTracker
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

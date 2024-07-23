@@ -84,6 +84,13 @@ dependencies {
 
     // ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    // Testing
+    testImplementation(libs.turbine)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.kotlin.test.junit)
+    testImplementation(libs.mockk)
 }
 
 kapt {

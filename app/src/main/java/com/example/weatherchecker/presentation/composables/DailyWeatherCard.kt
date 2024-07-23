@@ -49,7 +49,7 @@ fun DailyWeatherCard(
             .clickable { onClick() }
     ) {
         Card(
-            modifier = Modifier.requiredSize(90.dp),
+            modifier = Modifier.requiredSize(120.dp),
             colors = CardDefaults.cardColors(containerColor = LightBlue)
         ) {
             Box(
@@ -57,9 +57,9 @@ fun DailyWeatherCard(
             ) {
                 Text(
                     text = "${weatherData.temperatureInFahrenheit}°F",
-                    fontSize = 26.sp,
+                    fontSize = 36.sp,
                     color = White,
-                    modifier = Modifier.padding(top = 30.dp)
+                    modifier = Modifier.padding(top = 40.dp)
                 )
             }
         }
@@ -79,7 +79,7 @@ fun DailyWeatherCard(
 
         Text(
             text = dayOfWeek,
-            fontSize = 12.sp,
+            fontSize = 14.sp,
             color = White,
             modifier = Modifier
                 .align(BottomCenter)
@@ -99,7 +99,11 @@ private fun PreviewDailyWeatherCard() {
             weatherType = WeatherType.fromWMO(3),
             pressure = 9.0,
             windSpeed = 4.0,
-            humidity = 6.0
+            humidity = 6.0,
+            feelsLike = 92.9,
+            chanceOfRain = 50,
+            cloudCover = 10,
+            windDirection = 33.3
         ),
         onClick = {}
     )

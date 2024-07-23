@@ -13,5 +13,13 @@ data class WeatherDataDto(
     @SerializedName("wind_speed_10m")
     val windSpeeds: List<Double>,
     @SerializedName("relative_humidity_2m")
-    val humidities: List<Double>
+    val humidities: List<Double>,
+    @SerializedName("apparent_temperature")
+    val feelsLike: List<Double>,
+    @SerializedName("precipitation_probability")
+    val chanceOfRain: List<Int>,
+    @SerializedName("cloud_cover")
+    val cloudCover: List<Int>,
+    @SerializedName("wind_direction_10m")
+    val windDirection: List<Double>
 )

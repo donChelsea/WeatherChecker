@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -69,6 +71,8 @@ fun WeatherCard(
     weatherInfo.currentWeatherData?.let { data ->
         Card(
             modifier = modifier
+                .fillMaxWidth()
+                .requiredHeight(470.dp)
                 .padding(16.dp)
                 .graphicsLayer {
                     rotationY = rotation
@@ -90,30 +94,19 @@ fun WeatherCard(
                     Text(
                         text = weatherInfo.locationName,
                         color = Color.White,
-                        modifier = Modifier
-                            .align(Alignment.End)
-                            .graphicsLayer {
-                                alpha = animateFront
-                            }
+                        modifier = Modifier.align(Alignment.End)
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Image(
                         painter = painterResource(id = data.weatherType.iconRes),
                         contentDescription = data.weatherType.weatherDesc,
-                        modifier = Modifier
-                            .width(200.dp)
-                            .graphicsLayer {
-                                alpha = animateFront
-                            }
+                        modifier = Modifier.width(200.dp)
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
                         text = "${data.temperatureInFahrenheit}°F",
                         fontSize = 50.sp,
                         color = Color.White,
-                        modifier = Modifier.graphicsLayer {
-                            alpha = animateFront
-                        }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
@@ -159,70 +152,14 @@ fun WeatherCard(
                     Text(
                         text = "Rotated",
                         color = Color.White,
-                        modifier = Modifier
-                            .align(Alignment.End)
-                            .graphicsLayer {
-                                alpha = animateBack
-                                rotationY = rotation
-                            }
+                        modifier = Modifier.align(Alignment.End)
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Image(
-                        painter = painterResource(id = data.weatherType.iconRes),
-                        contentDescription = data.weatherType.weatherDesc,
-                        modifier = Modifier
-                            .width(200.dp)
-                            .graphicsLayer {
-                                alpha = animateBack
-                            }
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = "${data.temperatureInFahrenheit}°F",
-                        fontSize = 50.sp,
-                        color = Color.White,
-                        modifier = Modifier.graphicsLayer {
-                            alpha = animateBack
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = data.weatherType.weatherDesc,
-                        fontSize = 20.sp,
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier.height(32.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceAround
-                    ) {
-                        WeatherDataDisplay(
-                            value = data.pressure.roundToInt(),
-                            unit = "hPa",
-                            icon = ImageVector.vectorResource(id = R.drawable.ic_pressure),
-                            iconTint = Color.White,
-                            textStyle = TextStyle(color = Color.White)
-                        )
-                        WeatherDataDisplay(
-                            value = data.humidity.roundToInt(),
-                            unit = "%",
-                            icon = ImageVector.vectorResource(id = R.drawable.ic_drop),
-                            iconTint = Color.White,
-                            textStyle = TextStyle(color = Color.White)
-                        )
-                        WeatherDataDisplay(
-                            value = data.windSpeed.roundToInt(),
-                            unit = "mph",
-                            icon = ImageVector.vectorResource(id = R.drawable.ic_wind),
-                            iconTint = Color.White,
-                            textStyle = TextStyle(color = Color.White)
-                        )
-                    }
                 }
             }
         }
     }
 }
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
@@ -237,7 +174,11 @@ private fun PreviewWeatherCard() {
                 weatherType = WeatherType.fromWMO(3),
                 pressure = 9.0,
                 windSpeed = 4.0,
-                humidity = 6.0
+                humidity = 6.0,
+                feelsLike = 92.9,
+                chanceOfRain = 50,
+                cloudCover = 10,
+                windDirection = 33.3
             )
         ),
         backgroundColor = DeepBlue,

@@ -24,6 +24,10 @@ fun WeatherDataDto.toWeatherDataMap(): Map<Int, List<WeatherData>> {
         val windSpeed = windSpeeds[index]
         val pressure = pressures[index]
         val humidity = humidities[index]
+        val feelsLike = feelsLike[index]
+        val chanceOfRain = chanceOfRain[index]
+        val cloudCover = cloudCover[index]
+        val windDirection = windDirection[index]
         IndexedWeatherData(
             index = index,
             data = WeatherData(
@@ -32,7 +36,11 @@ fun WeatherDataDto.toWeatherDataMap(): Map<Int, List<WeatherData>> {
                 pressure = pressure,
                 windSpeed = windSpeed,
                 humidity = humidity,
-                weatherType = WeatherType.fromWMO(weatherCode)
+                weatherType = WeatherType.fromWMO(weatherCode),
+                feelsLike = feelsLike,
+                chanceOfRain = chanceOfRain,
+                cloudCover = cloudCover,
+                windDirection = windDirection
             )
         )
     }.groupBy { weatherData ->

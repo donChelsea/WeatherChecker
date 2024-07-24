@@ -12,7 +12,7 @@
     <ul>
       <p>
         <li><a href="https://developer.android.com/develop/ui/compose">Jetpack Compose</a></li>
-        <li><a href="https://github.com/mockk/mockk">Location services</a></li>
+        <li><a href="https://developer.android.com/reference/kotlin/android/location/Location">Location services</a></li>
         <li><a href="https://github.com/google/dagger">Dagger/Hilt</a></li>
         <li><a href="https://github.com/square/retrofit">Retrofit/Gson</a></li>
         <li><a href="https://junit.org/junit5/">JUnit</a></li>
